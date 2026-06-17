@@ -17,6 +17,10 @@ export function buildSingleMemberSplit(
   members: Member[],
   responsibleMemberId: string,
 ): ExpenseSplit[] {
+  if (!members.some((member) => member.id === responsibleMemberId)) {
+    throw new Error(`Unknown responsible member: ${responsibleMemberId}`);
+  }
+
   return members.map((member) => ({
     memberId: member.id,
     shareCents: member.id === responsibleMemberId ? amountCents : 0,

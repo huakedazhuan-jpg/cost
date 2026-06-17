@@ -43,10 +43,21 @@ export function calculateMonthlySummary(input: {
 
   for (const expense of monthlyExpenses) {
     categoryTotals[expense.categoryId] = (categoryTotals[expense.categoryId] ?? 0) + expense.amountCents;
-    balances[expense.paidByMemberId].paidCents += expense.amountCents;
+
+    const paidByBalance = balances[expense.paidByMemberId];
+    if (!paidByBalance) {
+      throw new Error(`Unknown paid-by member: ${expense.paidByMemberId}`);
+    }
+
+    paidByBalance.paidCents += expense.amountCents;
 
     for (const split of expense.splits) {
-      balances[split.memberId].owedCents += split.shareCents;
+      const splitBalance = balances[split.memberId];
+      if (!splitBalance) {
+        throw new Error(`Unknown split member: ${split.memberId}`);
+      }
+
+      splitBalance.owedCents += split.shareCents;
     }
   }
 

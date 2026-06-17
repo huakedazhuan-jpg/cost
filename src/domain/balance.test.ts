@@ -38,6 +38,7 @@ describe("calculateMonthlySummary", () => {
 
     expect(summary.totalCents).toBe(1000);
     expect(summary.expenseCount).toBe(1);
+    expect(summary.categoryTotals).toEqual({ "cat-dining": 1000 });
     expect(summary.members["member-me"]).toMatchObject({ paidCents: 1000, owedCents: 500, netCents: 500 });
     expect(summary.members["member-partner"]).toMatchObject({ paidCents: 0, owedCents: 500, netCents: -500 });
     expect(summary.settlement).toEqual({
@@ -101,5 +102,32 @@ describe("calculateMonthlySummary", () => {
       toMemberId: "member-partner",
       amountCents: 300,
     });
+  });
+
+  it("rejects expenses paid by an unknown member", () => {
+    expect(() =>
+      calculateMonthlySummary({
+        members,
+        expenses: [expense({ paidByMemberId: "member-stale" })],
+        monthKey: "2026-06",
+      }),
+    ).toThrow("Unknown paid-by member");
+  });
+
+  it("rejects expense splits for an unknown member", () => {
+    expect(() =>
+      calculateMonthlySummary({
+        members,
+        expenses: [
+          expense({
+            splits: [
+              { memberId: "member-me", shareCents: 500 },
+              { memberId: "member-stale", shareCents: 500 },
+            ],
+          }),
+        ],
+        monthKey: "2026-06",
+      }),
+    ).toThrow("Unknown split member");
   });
 });

@@ -21,10 +21,21 @@ describe("split helpers", () => {
     ]);
   });
 
+  it("rejects single-member responsibility for an unknown member", () => {
+    expect(() => buildSingleMemberSplit(500, members, "member-stale")).toThrow("Unknown responsible member");
+  });
+
   it("accepts custom split cents that equal the total", () => {
     expect(buildCustomSplits(1000, members, { "member-me": 300, "member-partner": 700 })).toEqual([
       { memberId: "member-me", shareCents: 300 },
       { memberId: "member-partner", shareCents: 700 },
+    ]);
+  });
+
+  it("defaults missing custom split members to zero", () => {
+    expect(buildCustomSplits(1000, members, { "member-me": 1000 })).toEqual([
+      { memberId: "member-me", shareCents: 1000 },
+      { memberId: "member-partner", shareCents: 0 },
     ]);
   });
 
