@@ -20,3 +20,122 @@ select,
 textarea {
   font: inherit;
 }
+
+.app-shell {
+  min-height: 100vh;
+  padding-bottom: 76px;
+  background: #f7f8fb;
+}
+
+.screen {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  padding: 18px 16px 28px;
+}
+
+.screen-header,
+.settings-row,
+.expense-row,
+.expense-row-actions,
+.month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field input,
+.field select {
+  min-height: 44px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.primary-button,
+.month-selector button,
+.bottom-nav-item,
+.expense-row button,
+.settings-row + button {
+  border: 0;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-weight: 600;
+}
+
+.primary-button {
+  width: 100%;
+  background: #2563eb;
+  color: #fff;
+}
+
+.metric-card,
+.expense-row,
+.settings-row {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fff;
+}
+
+.metric-card {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0;
+}
+
+.metric-card strong {
+  font-size: 28px;
+}
+
+.expense-list {
+  display: grid;
+  gap: 10px;
+}
+
+.expense-row span,
+.hint,
+.empty {
+  color: #667085;
+  font-size: 14px;
+}
+
+.error {
+  color: #b42318;
+}
+
+.bottom-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.bottom-nav-item {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  border-radius: 0;
+  background: transparent;
+  color: #667085;
+}
+
+.bottom-nav-item.active {
+  color: #2563eb;
+}
