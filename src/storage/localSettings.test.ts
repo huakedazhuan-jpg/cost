@@ -16,13 +16,19 @@ describe("localSettings", () => {
   });
 
   it("saves ledger key and selected identity", () => {
-    saveLedgerKey("secret-ledger-key");
+    saveLedgerKey("  secret-ledger-key  ");
     saveSelectedMemberId("member-me");
 
     expect(getLocalSettings()).toEqual({
       ledgerKey: "secret-ledger-key",
       selectedMemberId: "member-me",
     });
+    expect(localStorage.getItem("shared-expense-pwa:ledger-key")).toBe(
+      "secret-ledger-key",
+    );
+    expect(localStorage.getItem("shared-expense-pwa:selected-member-id")).toBe(
+      "member-me",
+    );
   });
 
   it("clears both values", () => {
