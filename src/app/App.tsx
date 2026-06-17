@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createMockLedgerApi } from "../api/mockLedgerApi";
+import { createSupabaseLedgerApi } from "../api/supabaseLedgerApi";
 import { BottomNav, type TabKey } from "../components/BottomNav";
 import { ExpenseForm, type ExpenseFormSubmit } from "../components/ExpenseForm";
 import { DEFAULT_CATEGORIES } from "../domain/categories";
@@ -13,8 +14,27 @@ import { StatisticsScreen } from "../screens/StatisticsScreen";
 import { clearLocalSettings, getLocalSettings, saveLedgerKey, saveSelectedMemberId } from "../storage/localSettings";
 import { AppStateProvider, useAppDispatch, useAppState } from "./AppState";
 
+function createLedgerApi() {
+  const env = (import.meta as unknown as { env: Record<string, string | undefined> }).env;
+
+  if (env.VITE_USE_MOCK_API === "true") {
+    return createMockLedgerApi();
+  }
+
+  const supabaseUrl = env.VITE_SUPABASE_URL;
+  const anonKey = env.VITE_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !anonKey) {
+    return createMockLedgerApi();
+  }
+
+  return createSupabaseLedgerApi({
+    functionUrl: `${supabaseUrl}/functions/v1/ledger-api`,
+    anonKey,
+  });
+}
+
 function AppContent() {
-  const api = useMemo(() => createMockLedgerApi(), []);
+  const api = useMemo(() => createLedgerApi(), []);
   const state = useAppState();
   const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<TabKey>("home");
