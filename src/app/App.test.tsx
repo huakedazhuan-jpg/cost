@@ -1,10 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { App } from "./App";
 
 describe("App", () => {
-  it("renders the app shell", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it("renders the onboarding entry point", () => {
     render(<App />);
-    expect(screen.getByRole("heading", { name: "Shared Expense PWA" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Shared Expense" })).toBeInTheDocument();
   });
 });
