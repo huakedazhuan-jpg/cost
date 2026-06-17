@@ -33,6 +33,26 @@ function createLedgerApi() {
   });
 }
 
+const BOOTSTRAP_TIMEOUT_MS = 10_000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timeoutId = window.setTimeout(() => {
+      reject(new Error("bootstrap timeout"));
+    }, timeoutMs);
+
+    promise.then(
+      (value) => {
+        window.clearTimeout(timeoutId);
+        resolve(value);
+      },
+      (error) => {
+        window.clearTimeout(timeoutId);
+        reject(error);
+      },
+    );
+  });
+}
 function AppContent() {
   const api = useMemo(() => createLedgerApi(), []);
   const state = useAppState();
@@ -53,11 +73,33 @@ function AppContent() {
     }
 
     let isCancelled = false;
-    dispatch({ type: "LOADING" });
 
-    void api
-      .bootstrap({ ledgerKey: local.ledgerKey })
-      .then((result) => {
+    async function restoreLocalSession() {
+      dispatch({ type: "LOADING" });
+
+      try {
+        const result = await withTimeout(
+          api.bootstrap({ ledgerKey: local.ledgerKey }),
+          BOOTSTRAP_TIMEOUT_MS,
+        );
+
+        const memberExists = result.ledger.members.some(
+          (member) => member.id === local.selectedMemberId,
+        );
+
+        if (!memberExists) {
+          clearLocalSettings();
+
+          if (!isCancelled) {
+            dispatch({
+              type: "ERROR",
+              message: "已保存的身份不存在，请重新进入账本",
+            });
+          }
+
+          return;
+        }
+
         if (!isCancelled) {
           dispatch({
             type: "BOOTSTRAP_SUCCESS",
@@ -66,17 +108,27 @@ function AppContent() {
             ledger: result.ledger,
           });
         }
-      })
-      .catch(() => {
+      } catch (error) {
+        console.error("恢复本地登录状态失败:", error);
+
+        clearLocalSettings();
+
         if (!isCancelled) {
-          dispatch({ type: "ERROR", message: "账本不存在或密钥不正确" });
+          dispatch({
+            type: "ERROR",
+            message: "自动恢复失败，请重新输入账本密钥",
+          });
         }
-      });
+      }
+    }
+
+    void restoreLocalSession();
 
     return () => {
       isCancelled = true;
     };
   }, [api, dispatch, state.ledger, state.ledgerKey, state.selectedMemberId, state.status]);
+
 
   useEffect(() => {
     if (!state.ledgerKey || !state.ledger) {
