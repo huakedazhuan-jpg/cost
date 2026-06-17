@@ -32,15 +32,15 @@ if (memberError) {
 }
 
 const categories = [
-  ["dining", "\u9910\u996e", 10],
-  ["groceries_daily", "\u8d85\u5e02\u65e5\u7528", 20],
-  ["rent_utilities", "\u623f\u79df\u6c34\u7535", 30],
-  ["transport", "\u4ea4\u901a", 40],
-  ["entertainment", "\u5a31\u4e50", 50],
-  ["medical", "\u533b\u7597", 60],
-  ["travel", "\u65c5\u884c", 70],
-  ["other", "\u5176\u4ed6", 80],
-].map(([key, name, sort_order]) => ({ ledger_id: ledger.id, key, name, sort_order }));
+  { id: "cat-dining", key: "dining", name: "\u9910\u996e", sort_order: 10 },
+  { id: "cat-groceries-daily", key: "groceries_daily", name: "\u8d85\u5e02\u65e5\u7528", sort_order: 20 },
+  { id: "cat-rent-utilities", key: "rent_utilities", name: "\u623f\u79df\u6c34\u7535", sort_order: 30 },
+  { id: "cat-transport", key: "transport", name: "\u4ea4\u901a", sort_order: 40 },
+  { id: "cat-entertainment", key: "entertainment", name: "\u5a31\u4e50", sort_order: 50 },
+  { id: "cat-medical", key: "medical", name: "\u533b\u7597", sort_order: 60 },
+  { id: "cat-travel", key: "travel", name: "\u65c5\u884c", sort_order: 70 },
+  { id: "cat-other", key: "other", name: "\u5176\u4ed6", sort_order: 80 },
+].map((category) => ({ ledger_id: ledger.id, ...category }));
 
 const { error: categoryError } = await client.from("categories").insert(categories);
 

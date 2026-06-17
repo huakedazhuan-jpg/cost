@@ -17,12 +17,13 @@ create table public.ledger_members (
 );
 
 create table public.categories (
-  id uuid primary key default gen_random_uuid(),
-  ledger_id uuid references public.ledgers(id) on delete cascade,
+  ledger_id uuid not null references public.ledgers(id) on delete cascade,
+  id text not null,
   key text not null,
   name text not null,
   sort_order integer not null default 0,
   is_active boolean not null default true,
+  primary key (ledger_id, id),
   unique (ledger_id, key)
 );
 
@@ -30,14 +31,15 @@ create table public.expenses (
   id uuid primary key default gen_random_uuid(),
   ledger_id uuid not null references public.ledgers(id) on delete cascade,
   amount_cents integer not null check (amount_cents > 0),
-  category_id uuid not null references public.categories(id),
+  category_id text not null,
   spent_on date not null,
   note text not null default '',
   created_by_member_id uuid not null references public.ledger_members(id),
   paid_by_member_id uuid not null references public.ledger_members(id),
   split_mode text not null check (split_mode in ('equal', 'single', 'custom')),
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  foreign key (ledger_id, category_id) references public.categories(ledger_id, id)
 );
 
 create table public.expense_splits (
