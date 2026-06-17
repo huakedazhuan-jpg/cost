@@ -48,4 +48,64 @@ describe("mockLedgerApi", () => {
     expect(month.expenses).toHaveLength(1);
     expect(month.summary.totalCents).toBe(1000);
   });
+
+  it("updates existing expenses", async () => {
+    const api = createMockLedgerApi();
+    const bootstrap = await api.bootstrap({ ledgerKey: "demo-ledger-key" });
+    const member = bootstrap.ledger.members[0];
+    const created = await api.createExpense({
+      ledgerKey: "demo-ledger-key",
+      amountCents: 1000,
+      categoryId: "cat-dining",
+      spentOn: "2026-06-16",
+      note: "dinner",
+      createdByMemberId: member.id,
+      paidByMemberId: member.id,
+      splitMode: "equal",
+    });
+
+    const updated = await api.updateExpense({
+      ledgerKey: "demo-ledger-key",
+      id: created.id,
+      amountCents: 1200,
+      categoryId: "cat-other",
+      spentOn: "2026-06-17",
+      note: "snacks",
+      createdByMemberId: member.id,
+      paidByMemberId: member.id,
+      splitMode: "equal",
+    });
+    const month = await api.listMonth({ ledgerKey: "demo-ledger-key", monthKey: "2026-06" });
+
+    expect(updated).toMatchObject({
+      id: created.id,
+      amountCents: 1200,
+      categoryId: "cat-other",
+      note: "snacks",
+    });
+    expect(month.expenses).toHaveLength(1);
+    expect(month.summary.totalCents).toBe(1200);
+  });
+
+  it("deletes expenses", async () => {
+    const api = createMockLedgerApi();
+    const bootstrap = await api.bootstrap({ ledgerKey: "demo-ledger-key" });
+    const member = bootstrap.ledger.members[0];
+    const created = await api.createExpense({
+      ledgerKey: "demo-ledger-key",
+      amountCents: 1000,
+      categoryId: "cat-dining",
+      spentOn: "2026-06-16",
+      note: "",
+      createdByMemberId: member.id,
+      paidByMemberId: member.id,
+      splitMode: "equal",
+    });
+
+    await api.deleteExpense({ ledgerKey: "demo-ledger-key", id: created.id });
+    const month = await api.listMonth({ ledgerKey: "demo-ledger-key", monthKey: "2026-06" });
+
+    expect(month.expenses).toHaveLength(0);
+    expect(month.summary.totalCents).toBe(0);
+  });
 });
