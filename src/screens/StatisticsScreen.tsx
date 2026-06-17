@@ -22,16 +22,18 @@ export function StatisticsScreen({
 
   return (
     <section className="screen">
-      <h1>Statistics</h1>
+      <h1>统计</h1>
       <MonthSelector value={monthKey} onChange={onMonthChange} />
       <div className="metric-card">
-        <span>Total</span>
+        <span>本月总消费</span>
         <strong>{formatCents(summary.totalCents)}</strong>
       </div>
       <div className="metric-card">
-        <span>Monthly settlement suggestion</span>
+        <span>本月应补</span>
         <strong>
-          {settlement && from && to ? `${from.displayName} -> ${to.displayName} ${formatCents(settlement.amountCents)}` : "Balanced"}
+          {settlement && from && to
+            ? `${from.displayName} 应补给 ${to.displayName} ${formatCents(settlement.amountCents)}`
+            : "已平衡"}
         </strong>
       </div>
     </section>

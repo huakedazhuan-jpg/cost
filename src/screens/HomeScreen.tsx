@@ -21,20 +21,18 @@ export function HomeScreen({
   return (
     <section className="screen">
       <header className="screen-header">
-        <h1>Shared Ledger</h1>
+        <h1>共同账本</h1>
         <span>{monthKey}</span>
       </header>
       <div className="metric-card">
-        <span>This month</span>
+        <span>本月总消费</span>
         <strong>{formatCents(summary.totalCents)}</strong>
-        <small>
-          {summary.expenseCount} record{summary.expenseCount === 1 ? "" : "s"}
-        </small>
+        <small>{summary.expenseCount} 笔</small>
       </div>
       <button className="primary-button" type="button" onClick={onAddExpense}>
-        Add expense
+        新增支出
       </button>
-      <h2>Recent</h2>
+      <h2>最近记录</h2>
       <ExpenseList expenses={recent} />
     </section>
   );

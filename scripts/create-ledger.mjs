@@ -14,7 +14,7 @@ const accessKeyHash = createHash("sha256").update(ledgerKey).digest("hex");
 
 const { data: ledger, error: ledgerError } = await client
   .from("ledgers")
-  .insert({ name: "Shared Ledger", access_key_hash: accessKeyHash })
+  .insert({ name: "共同账本", access_key_hash: accessKeyHash })
   .select()
   .single();
 

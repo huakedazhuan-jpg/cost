@@ -15,7 +15,7 @@ const expenses: Expense[] = [
     amountCents: 12800,
     categoryId: "cat-dining",
     spentOn: "2026-06-16",
-    note: "dinner",
+    note: "晚餐",
     createdByMemberId: "member-me",
     paidByMemberId: "member-me",
     splitMode: "equal",
@@ -32,7 +32,7 @@ describe("HomeScreen", () => {
   it("shows current month total and recent expenses", () => {
     render(<HomeScreen members={members} expenses={expenses} monthKey="2026-06" onAddExpense={() => undefined} />);
     expect(screen.getAllByText("¥128.00")[0]).toBeInTheDocument();
-    expect(screen.getByText("1 record")).toBeInTheDocument();
-    expect(screen.getByText("dinner")).toBeInTheDocument();
+    expect(screen.getByText("1 笔")).toBeInTheDocument();
+    expect(screen.getByText("晚餐")).toBeInTheDocument();
   });
 });

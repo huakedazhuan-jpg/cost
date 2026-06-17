@@ -10,7 +10,7 @@ describe("OnboardingScreen", () => {
     const user = userEvent.setup();
     const ledger: Ledger = {
       id: "ledger-demo",
-      name: "Shared Ledger",
+      name: "共同账本",
       members: [
         { id: "member-me", memberKey: "me", displayName: "A" },
         { id: "member-partner", memberKey: "partner", displayName: "B" },
@@ -26,8 +26,8 @@ describe("OnboardingScreen", () => {
     const onComplete = vi.fn();
 
     render(<OnboardingScreen api={api} onComplete={onComplete} />);
-    await user.type(screen.getByLabelText("Ledger key"), "demo-ledger-key");
-    await user.click(screen.getByRole("button", { name: "Continue" }));
+    await user.type(screen.getByLabelText("账本密钥"), "demo-ledger-key");
+    await user.click(screen.getByRole("button", { name: "继续" }));
     await user.click(await screen.findByRole("button", { name: "A" }));
 
     expect(onComplete).toHaveBeenCalledWith({

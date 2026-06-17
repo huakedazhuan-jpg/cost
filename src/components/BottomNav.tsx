@@ -3,10 +3,10 @@ import { BarChart3, Home, List, Settings } from "lucide-react";
 export type TabKey = "home" | "details" | "statistics" | "settings";
 
 const tabs = [
-  { key: "home" as const, label: "Home", icon: Home },
-  { key: "details" as const, label: "Details", icon: List },
-  { key: "statistics" as const, label: "Stats", icon: BarChart3 },
-  { key: "settings" as const, label: "Settings", icon: Settings },
+  { key: "home" as const, label: "首页", icon: Home },
+  { key: "details" as const, label: "明细", icon: List },
+  { key: "statistics" as const, label: "统计", icon: BarChart3 },
+  { key: "settings" as const, label: "设置", icon: Settings },
 ];
 
 export function BottomNav({ active, onChange }: { active: TabKey; onChange: (tab: TabKey) => void }) {

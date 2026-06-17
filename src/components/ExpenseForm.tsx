@@ -43,7 +43,7 @@ export function ExpenseForm({
     }
 
     if (!spentOn) {
-      setError("Date is required");
+      setError("请选择日期");
       return;
     }
 
@@ -53,7 +53,7 @@ export function ExpenseForm({
       for (const member of members) {
         const share = parseAmountToCents(customShares[member.id] ?? "");
         if (!share.ok) {
-          setError(`${member.displayName} share is invalid`);
+          setError(`${member.displayName} 的分摊金额无效`);
           return;
         }
         customShareCents[member.id] = share.cents;
@@ -61,7 +61,7 @@ export function ExpenseForm({
 
       const total = Object.values(customShareCents).reduce((sum, cents) => sum + cents, 0);
       if (total !== parsed.cents) {
-        setError("Custom shares must equal the total amount");
+        setError("自定义分摊金额必须等于总金额");
         return;
       }
     }
@@ -83,11 +83,11 @@ export function ExpenseForm({
   return (
     <form className="stack" onSubmit={(event) => event.preventDefault()}>
       <label className="field">
-        <span>Amount</span>
+        <span>金额</span>
         <input inputMode="decimal" value={amount} onChange={(event) => setAmount(event.target.value)} />
       </label>
       <label className="field">
-        <span>Category</span>
+        <span>分类</span>
         <select value={categoryId} onChange={(event) => setCategoryId(event.target.value)}>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -97,26 +97,26 @@ export function ExpenseForm({
         </select>
       </label>
       <label className="field">
-        <span>Date</span>
+        <span>日期</span>
         <input type="date" value={spentOn} onChange={(event) => setSpentOn(event.target.value)} />
       </label>
       <label className="field">
-        <span>Note</span>
+        <span>备注</span>
         <input value={note} onChange={(event) => setNote(event.target.value)} />
       </label>
       <details open>
-        <summary>Split settings</summary>
+        <summary>分摊设置</summary>
         <label className="field">
-          <span>Split mode</span>
+          <span>分摊方式</span>
           <select value={splitMode} onChange={(event) => setSplitMode(event.target.value as SplitMode)}>
-            <option value="equal">50/50</option>
-            <option value="single">Paid by me only</option>
-            <option value="custom">Custom amount</option>
+            <option value="equal">默认 50/50</option>
+            <option value="single">一人承担</option>
+            <option value="custom">自定义金额</option>
           </select>
         </label>
         {splitMode === "single" ? (
           <label className="field">
-            <span>Responsible member</span>
+            <span>承担人</span>
             <select value={responsibleMemberId} onChange={(event) => setResponsibleMemberId(event.target.value)}>
               {members.map((member) => (
                 <option key={member.id} value={member.id}>
@@ -129,7 +129,7 @@ export function ExpenseForm({
         {splitMode === "custom"
           ? members.map((member) => (
               <label className="field" key={member.id}>
-                <span>{member.displayName} share</span>
+                <span>{member.displayName} 分摊金额</span>
                 <input
                   inputMode="decimal"
                   value={customShares[member.id] ?? ""}
@@ -146,7 +146,7 @@ export function ExpenseForm({
       </details>
       {error ? <p className="error">{error}</p> : null}
       <button className="primary-button" type="button" onClick={submit}>
-        Save
+        保存
       </button>
     </form>
   );

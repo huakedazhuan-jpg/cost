@@ -8,7 +8,7 @@ describe("createSupabaseLedgerApi", () => {
 
   it("posts bootstrap requests to the ledger function", async () => {
     const fetchMock = vi.fn(async () =>
-      new Response(JSON.stringify({ ledger: { id: "ledger-1", name: "Shared Ledger", members: [] } }), {
+      new Response(JSON.stringify({ ledger: { id: "ledger-1", name: "共同账本", members: [] } }), {
         status: 200,
         headers: { "content-type": "application/json" },
       }),

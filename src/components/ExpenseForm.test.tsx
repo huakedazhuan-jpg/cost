@@ -24,19 +24,19 @@ describe("ExpenseForm", () => {
       />,
     );
 
-    await user.type(screen.getByLabelText("Amount"), "128.50");
-    await user.selectOptions(screen.getByLabelText("Category"), "cat-dining");
-    await user.clear(screen.getByLabelText("Date"));
-    await user.type(screen.getByLabelText("Date"), "2026-06-16");
-    await user.type(screen.getByLabelText("Note"), "dinner");
-    await user.click(screen.getByRole("button", { name: "Save" }));
+    await user.type(screen.getByLabelText("金额"), "128.50");
+    await user.selectOptions(screen.getByLabelText("分类"), "cat-dining");
+    await user.clear(screen.getByLabelText("日期"));
+    await user.type(screen.getByLabelText("日期"), "2026-06-16");
+    await user.type(screen.getByLabelText("备注"), "晚餐");
+    await user.click(screen.getByRole("button", { name: "保存" }));
 
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({
         amountCents: 12850,
         categoryId: "cat-dining",
         spentOn: "2026-06-16",
-        note: "dinner",
+        note: "晚餐",
         createdByMemberId: "member-me",
         paidByMemberId: "member-me",
         splitMode: "equal",
@@ -55,10 +55,10 @@ describe("ExpenseForm", () => {
       />,
     );
 
-    await user.type(screen.getByLabelText("Amount"), "0");
-    await user.click(screen.getByRole("button", { name: "Save" }));
+    await user.type(screen.getByLabelText("金额"), "0");
+    await user.click(screen.getByRole("button", { name: "保存" }));
 
-    expect(screen.getByText("Amount must be greater than 0")).toBeInTheDocument();
+    expect(screen.getByText("金额必须大于 0")).toBeInTheDocument();
   });
 
   it("submits custom split shares", async () => {
@@ -74,11 +74,11 @@ describe("ExpenseForm", () => {
       />,
     );
 
-    await user.type(screen.getByLabelText("Amount"), "100");
-    await user.selectOptions(screen.getByLabelText("Split mode"), "custom");
-    await user.type(screen.getByLabelText("A share"), "30");
-    await user.type(screen.getByLabelText("B share"), "70");
-    await user.click(screen.getByRole("button", { name: "Save" }));
+    await user.type(screen.getByLabelText("金额"), "100");
+    await user.selectOptions(screen.getByLabelText("分摊方式"), "custom");
+    await user.type(screen.getByLabelText("A 分摊金额"), "30");
+    await user.type(screen.getByLabelText("B 分摊金额"), "70");
+    await user.click(screen.getByRole("button", { name: "保存" }));
 
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({

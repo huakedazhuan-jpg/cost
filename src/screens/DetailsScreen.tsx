@@ -16,7 +16,7 @@ export function DetailsScreen({
 }) {
   return (
     <section className="screen">
-      <h1>Details</h1>
+      <h1>明细</h1>
       <MonthSelector value={monthKey} onChange={onMonthChange} />
       <ExpenseList expenses={expenses.filter((expense) => expense.spentOn.startsWith(monthKey))} onDelete={onDeleteExpense} />
     </section>

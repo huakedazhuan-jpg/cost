@@ -9,10 +9,10 @@ describe("parseAmountToCents", () => {
   });
 
   it("rejects invalid or non-positive amounts", () => {
-    expect(parseAmountToCents("0")).toEqual({ ok: false, error: "Amount must be greater than 0" });
-    expect(parseAmountToCents("-1")).toEqual({ ok: false, error: "Amount must be greater than 0" });
-    expect(parseAmountToCents("12.345")).toEqual({ ok: false, error: "Use at most 2 decimal places" });
-    expect(parseAmountToCents("abc")).toEqual({ ok: false, error: "Enter a valid amount" });
+    expect(parseAmountToCents("0")).toEqual({ ok: false, error: "金额必须大于 0" });
+    expect(parseAmountToCents("-1")).toEqual({ ok: false, error: "金额必须大于 0" });
+    expect(parseAmountToCents("12.345")).toEqual({ ok: false, error: "最多输入 2 位小数" });
+    expect(parseAmountToCents("abc")).toEqual({ ok: false, error: "请输入有效金额" });
   });
 });
 

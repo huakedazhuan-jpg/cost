@@ -8,7 +8,7 @@ const MOCK_LEDGER_KEY = "demo-ledger-key";
 
 const ledger: Ledger = {
   id: "ledger-demo",
-  name: "Shared Ledger",
+  name: "共同账本",
   members: [
     { id: "member-me", memberKey: "me", displayName: "A" },
     { id: "member-partner", memberKey: "partner", displayName: "B" },

@@ -9,7 +9,7 @@ describe("appReducer", () => {
       selectedMemberId: "member-me",
       ledger: {
         id: "ledger-demo",
-        name: "Shared Ledger",
+        name: "共同账本",
         members: [{ id: "member-me", memberKey: "me", displayName: "A" }],
       },
     });

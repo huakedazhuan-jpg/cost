@@ -69,7 +69,7 @@ function AppContent() {
       })
       .catch(() => {
         if (!isCancelled) {
-          dispatch({ type: "ERROR", message: "ledger not found or key incorrect" });
+          dispatch({ type: "ERROR", message: "账本不存在或密钥不正确" });
         }
       });
 
@@ -116,7 +116,7 @@ function AppContent() {
       return;
     }
 
-    if (!window.confirm("Delete this expense?")) {
+    if (!window.confirm("确定删除这笔支出吗？")) {
       return;
     }
 
@@ -132,7 +132,7 @@ function AppContent() {
   if (state.status === "loading") {
     return (
       <main className="app-shell" aria-busy="true">
-        Loading...
+        加载中...
       </main>
     );
   }
@@ -146,9 +146,9 @@ function AppContent() {
       {showForm ? (
         <section className="screen">
           <button type="button" onClick={() => setShowForm(false)}>
-            Back
+            返回
           </button>
-          <h1>Add expense</h1>
+          <h1>新增支出</h1>
           <ExpenseForm
             categories={DEFAULT_CATEGORIES}
             members={state.ledger.members}

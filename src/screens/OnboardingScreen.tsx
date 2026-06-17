@@ -30,7 +30,7 @@ export function OnboardingScreen({
       setLedgerKey(submittedLedgerKey);
       setLedger(result.ledger);
     } catch {
-      setError("ledger not found or key incorrect");
+      setError("账本不存在或密钥不正确");
     } finally {
       setIsSubmitting(false);
     }
@@ -39,7 +39,7 @@ export function OnboardingScreen({
   if (ledger) {
     return (
       <section className="screen">
-        <h1>Choose identity</h1>
+        <h1>选择身份</h1>
         <div className="stack">
           {ledger.members.map((member) => (
             <button
@@ -58,14 +58,14 @@ export function OnboardingScreen({
 
   return (
     <section className="screen">
-      <h1>Shared Expense</h1>
+      <h1>共同记账</h1>
       <label className="field">
-        <span>Ledger key</span>
+        <span>账本密钥</span>
         <input value={ledgerKey} onChange={(event) => setLedgerKey(event.target.value)} />
       </label>
       {error ? <p className="error">{error}</p> : null}
       <button className="primary-button" type="button" onClick={submitLedgerKey} disabled={isSubmitting}>
-        Continue
+        继续
       </button>
     </section>
   );

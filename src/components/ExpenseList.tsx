@@ -9,7 +9,7 @@ export function ExpenseList({
   onDelete?: (expenseId: string) => void;
 }) {
   if (expenses.length === 0) {
-    return <p className="empty">No expenses for this month.</p>;
+    return <p className="empty">本月暂无支出。</p>;
   }
 
   return (
@@ -17,14 +17,14 @@ export function ExpenseList({
       {expenses.map((expense) => (
         <article className="expense-row" key={expense.id}>
           <div>
-            <strong>{expense.note || "Shared expense"}</strong>
+            <strong>{expense.note || "共同支出"}</strong>
             <span>{expense.spentOn}</span>
           </div>
           <div className="expense-row-actions">
             <strong>{formatCents(expense.amountCents)}</strong>
             {onDelete ? (
               <button type="button" onClick={() => onDelete(expense.id)}>
-                Delete
+                删除
               </button>
             ) : null}
           </div>

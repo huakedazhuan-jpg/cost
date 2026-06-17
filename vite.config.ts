@@ -8,9 +8,9 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "Shared Expense",
-        short_name: "Expenses",
-        description: "Private shared expense ledger for two people.",
+        name: "共同记账",
+        short_name: "记账",
+        description: "两个人使用的共同生活支出记账应用。",
         start_url: "/",
         display: "standalone",
         background_color: "#f7f8fb",

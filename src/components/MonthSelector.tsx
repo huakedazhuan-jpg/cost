@@ -4,11 +4,11 @@ export function MonthSelector({ value, onChange }: { value: MonthKey; onChange: 
   return (
     <div className="month-selector">
       <button type="button" onClick={() => onChange(shiftMonth(value, -1))}>
-        Prev
+        上月
       </button>
       <strong>{value}</strong>
       <button type="button" onClick={() => onChange(shiftMonth(value, 1))}>
-        Next
+        下月
       </button>
     </div>
   );

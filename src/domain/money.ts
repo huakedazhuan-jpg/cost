@@ -6,21 +6,21 @@ export function parseAmountToCents(raw: string): AmountParseResult {
   const value = raw.trim();
 
   if (/^-/.test(value) || value === "0" || value === "0.0" || value === "0.00") {
-    return { ok: false, error: "Amount must be greater than 0" };
+    return { ok: false, error: "金额必须大于 0" };
   }
 
   if (!/^\d+(\.\d+)?$/.test(value)) {
-    return { ok: false, error: "Enter a valid amount" };
+    return { ok: false, error: "请输入有效金额" };
   }
 
   const [yuan, decimal = ""] = value.split(".");
   if (decimal.length > 2) {
-    return { ok: false, error: "Use at most 2 decimal places" };
+    return { ok: false, error: "最多输入 2 位小数" };
   }
 
   const cents = Number(yuan) * 100 + Number(decimal.padEnd(2, "0"));
   if (!Number.isSafeInteger(cents) || cents <= 0) {
-    return { ok: false, error: "Amount must be greater than 0" };
+    return { ok: false, error: "金额必须大于 0" };
   }
 
   return { ok: true, cents };

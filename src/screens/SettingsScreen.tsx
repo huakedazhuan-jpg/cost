@@ -13,18 +13,18 @@ export function SettingsScreen({
 
   return (
     <section className="screen">
-      <h1>Settings</h1>
+      <h1>设置</h1>
       <div className="settings-row">
-        <span>Ledger</span>
+        <span>账本</span>
         <strong>{ledger.name}</strong>
       </div>
       <div className="settings-row">
-        <span>Identity</span>
-        <strong>{selectedMember?.displayName ?? "Unknown"}</strong>
+        <span>当前身份</span>
+        <strong>{selectedMember?.displayName ?? "未知"}</strong>
       </div>
-      <p className="hint">Use the browser share menu to add this app to your phone home screen.</p>
+      <p className="hint">可以通过浏览器分享菜单把这个应用添加到手机桌面。</p>
       <button type="button" onClick={onReset}>
-        Reset local setup
+        重置本机设置
       </button>
     </section>
   );
