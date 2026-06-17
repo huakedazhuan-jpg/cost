@@ -127,7 +127,7 @@ function AppContent() {
     return () => {
       isCancelled = true;
     };
-  }, [api, dispatch, state.ledger, state.ledgerKey, state.selectedMemberId, state.status]);
+  }, [api, dispatch, state.ledger, state.ledgerKey, state.selectedMemberId]);
 
 
   useEffect(() => {

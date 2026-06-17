@@ -13,6 +13,16 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "共同记账" })).toBeInTheDocument();
   });
 
+  it("restores a saved ledger session without getting stuck on loading", async () => {
+    localStorage.setItem("shared-expense-pwa:ledger-key", "demo-ledger-key");
+    localStorage.setItem("shared-expense-pwa:selected-member-id", "member-me");
+
+    render(<App />);
+
+    expect(await screen.findByRole("button", { name: "新增支出" })).toBeInTheDocument();
+    expect(screen.queryByText("加载中...")).not.toBeInTheDocument();
+  });
+
   it("creates a shared expense and shows the monthly settlement suggestion", async () => {
     const user = userEvent.setup();
 
